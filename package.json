@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "Pin and unpin the current DeepSeek Harness session from the conversation header.",
   "type": "module",
-  "main": "client.js",
+  "main": "index.js",
   "exports": {
-    ".": "./client.js",
+    ".": "./index.js",
     "./client": "./client.js"
   },
   "dsh": {
@@ -18,12 +18,13 @@
     }
   },
   "files": [
+    "index.js",
     "client.js",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "check": "node --check client.js && node --test test/*.test.js",
+    "check": "node --check index.js && node --check client.js && node --test test/*.test.js",
     "test": "npm run check"
   },
   "keywords": [
