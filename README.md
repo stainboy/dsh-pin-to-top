@@ -1,53 +1,24 @@
 # dsh-pin-to-top
 
-A standard DeepSeek Harness Web/Cordis client plugin that adds a **Pin / Unpin** control to the current Session header.
+> [!IMPORTANT]
+> **This repository is archived and no longer maintained.**
+>
+> DeepSeek Harness **v0.1.7-rc.2** includes built-in Session pinning, making this plugin unnecessary. Use DSH's native **Pin session / Unpin session** actions instead.
 
-The plugin uses DSH's public `conversation.session.header.actions` Slot and the public Client `workspaces.insertSessionBefore(...)` Service. It does not patch or replace DSH source code.
+## Historical purpose
 
-## Behavior
+This repository provided an experimental DeepSeek Harness Web/Cordis client plugin for moving a Session to the top of its Workspace. It used DSH's public Client extension points and was created before native Session pinning was available.
 
-- **Pin** moves the current Session to the first position in its Workspace's durable `sessionIds` order.
-- **Unpin** moves it below the Session that follows it.
-- The button is hidden for Sessions that are not attached to a Workspace.
-- DSH's Workspace service persists and broadcasts the resulting order.
+The built-in implementation in DSH v0.1.7-rc.2 provides a dedicated durable `pinnedSessionIds` model and native pin/unpin actions in the Workspace UI. It supersedes this plugin's earlier ordering-based approximation.
 
-> DSH currently exposes workspace ordering but no separate pinned-set model. Consequently, this release supports one effective top-pinned Session per Workspace: whichever Session occupies the first position.
+## Migration
 
-## Install
+1. Remove `dsh-pin-to-top` from your DSH profile dependencies.
+2. Remove its plugin row from your Cordis composition or patch.
+3. Restart DSH.
+4. Use the built-in **Pin session** action from the Session row menu or hover controls.
 
-Add this package as a plugin row in the Host composition that supplies browser client modules:
-
-```yaml
-- dsh-pin-to-top
-```
-
-If installing from GitHub rather than npm, add the repository to the Harness package environment first, then reference the installed package name in `cordis.yml`.
-
-The package advertises its browser half through `package.json`:
-
-```json
-{
-  "dsh": {
-    "client": {
-      "inject": [
-        "@deepseek-ai/dsh-api-workspace-controller",
-        "@deepseek-ai/dsh-client-ui-conversation"
-      ],
-      "platform": "web"
-    }
-  }
-}
-```
-
-Restart DSH after changing the composition. Client-package changes require rebuilding the Web artifacts unless the DSH client-plugin HMR watcher is running.
-
-## Development
-
-```bash
-npm test
-```
-
-The implementation is intentionally dependency-light and ships as plain ESM JavaScript.
+No replacement plugin is required.
 
 ## License
 
